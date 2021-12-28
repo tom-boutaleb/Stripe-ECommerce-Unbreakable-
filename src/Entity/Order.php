@@ -26,13 +26,13 @@ class Order
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="orders")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $customerId;
+    private $customer;
 
     /**
      * @ORM\ManyToOne(targetEntity=Address::class)
      * @ORM\JoinColumn(nullable=false)
      */
-    private $addressId;
+    private $address;
 
     /**
      * @ORM\Column(type="date")
@@ -50,7 +50,7 @@ class Order
     private $trackingNumber;
 
     /**
-     * @ORM\OneToMany(targetEntity=OrderDetail::class, mappedBy="orderId", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=OrderDetail::class, mappedBy="order", orphanRemoval=true)
      */
     private $orderDetails;
 
@@ -64,26 +64,26 @@ class Order
         return $this->id;
     }
 
-    public function getCustomerId(): ?User
+    public function getCustomer(): ?User
     {
-        return $this->customerId;
+        return $this->customer;
     }
 
-    public function setCustomerId(?User $customerId): self
+    public function setCustomer(?User $customer): self
     {
-        $this->customerId = $customerId;
+        $this->customer = $customer;
 
         return $this;
     }
 
-    public function getAddressId(): ?Address
+    public function getAddress(): ?Address
     {
-        return $this->addressId;
+        return $this->address;
     }
 
-    public function setAddressId(?Address $addressId): self
+    public function setAddress(?Address $address): self
     {
-        $this->addressId = $addressId;
+        $this->address = $address;
 
         return $this;
     }
@@ -136,7 +136,7 @@ class Order
     {
         if (!$this->orderDetails->contains($orderDetail)) {
             $this->orderDetails[] = $orderDetail;
-            $orderDetail->setOrderId($this);
+            $orderDetail->setOrder($this);
         }
 
         return $this;
@@ -146,8 +146,8 @@ class Order
     {
         if ($this->orderDetails->removeElement($orderDetail)) {
             // set the owning side to null (unless already changed)
-            if ($orderDetail->getOrderId() === $this) {
-                $orderDetail->setOrderId(null);
+            if ($orderDetail->getOrder() === $this) {
+                $orderDetail->setOrder(null);
             }
         }
 

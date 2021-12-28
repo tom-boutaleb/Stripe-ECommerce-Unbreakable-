@@ -24,7 +24,7 @@ class Discount
     /**
      * @ORM\OneToMany(targetEntity=Product::class, mappedBy="discount")
      */
-    private $productId;
+    private $product;
 
     /**
      * @ORM\Column(type="string", length=155)
@@ -48,7 +48,7 @@ class Discount
 
     public function __construct()
     {
-        $this->productId = new ArrayCollection();
+        $this->product = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -59,27 +59,27 @@ class Discount
     /**
      * @return Collection|Product[]
      */
-    public function getProductId(): Collection
+    public function getProduct(): Collection
     {
-        return $this->productId;
+        return $this->product;
     }
 
-    public function addProductId(Product $productId): self
+    public function addProduct(Product $product): self
     {
-        if (!$this->productId->contains($productId)) {
-            $this->productId[] = $productId;
-            $productId->setDiscount($this);
+        if (!$this->product->contains($product)) {
+            $this->product[] = $product;
+            $product->setDiscount($this);
         }
 
         return $this;
     }
 
-    public function removeProductId(Product $productId): self
+    public function removeProduct(Product $product): self
     {
-        if ($this->productId->removeElement($productId)) {
+        if ($this->product->removeElement($product)) {
             // set the owning side to null (unless already changed)
-            if ($productId->getDiscount() === $this) {
-                $productId->setDiscount(null);
+            if ($product->getDiscount() === $this) {
+                $product->setDiscount(null);
             }
         }
 

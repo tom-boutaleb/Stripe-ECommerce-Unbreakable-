@@ -23,13 +23,13 @@ class OrderDetail
      * @ORM\ManyToOne(targetEntity=Order::class, inversedBy="orderDetails")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $orderId;
+    private $order;
 
     /**
      * @ORM\OneToOne(targetEntity=Product::class, cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
      */
-    private $productId;
+    private $product;
 
     /**
      * @ORM\Column(type="integer")
@@ -46,26 +46,26 @@ class OrderDetail
         return $this->id;
     }
 
-    public function getOrderId(): ?Order
+    public function getOrder(): ?Order
     {
-        return $this->orderId;
+        return $this->order;
     }
 
-    public function setOrderId(?Order $orderId): self
+    public function setOrder(?Order $order): self
     {
-        $this->orderId = $orderId;
+        $this->order = $order;
 
         return $this;
     }
 
-    public function getProductId(): ?Product
+    public function getProduct(): ?Product
     {
-        return $this->productId;
+        return $this->product;
     }
 
-    public function setProductId(Product $productId): self
+    public function setProduct(Product $product): self
     {
-        $this->productId = $productId;
+        $this->product = $product;
 
         return $this;
     }

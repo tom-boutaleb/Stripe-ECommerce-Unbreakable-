@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -9,8 +10,10 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
+
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
+ * @ApiResource
  */
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
@@ -58,17 +61,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $creationDate;
 
     /**
-     * @ORM\OneToMany(targetEntity=IPs::class, mappedBy="userId", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=IPs::class, mappedBy="user", orphanRemoval=true)
      */
     private $IPs;
 
     /**
-     * @ORM\OneToMany(targetEntity=Address::class, mappedBy="customerId", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=Address::class, mappedBy="customer", orphanRemoval=true)
      */
     private $addresses;
 
     /**
-     * @ORM\OneToMany(targetEntity=Order::class, mappedBy="customerId")
+     * @ORM\OneToMany(targetEntity=Order::class, mappedBy="customer")
      */
     private $orders;
 
@@ -101,13 +104,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      *
      * @see UserInterface
      */
-    public function getUserIdentifier(): string
+    public function getUserentifier(): string
     {
         return (string) $this->email;
     }
 
     /**
-     * @deprecated since Symfony 5.3, use getUserIdentifier instead
+     * @deprecated since Symfony 5.3, use getUserentifier instead
      */
     public function getUsername(): string
     {
@@ -228,7 +231,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if (!$this->IPs->contains($iP)) {
             $this->IPs[] = $iP;
-            $iP->setUserId($this);
+            $iP->setUser($this);
         }
 
         return $this;
@@ -238,8 +241,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if ($this->IPs->removeElement($iP)) {
             // set the owning side to null (unless already changed)
-            if ($iP->getUserId() === $this) {
-                $iP->setUserId(null);
+            if ($iP->getUser() === $this) {
+                $iP->setUser(null);
             }
         }
 
@@ -258,7 +261,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if (!$this->addresses->contains($address)) {
             $this->addresses[] = $address;
-            $address->setCustomerId($this);
+            $address->setCustomer($this);
         }
 
         return $this;
@@ -268,8 +271,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if ($this->addresses->removeElement($address)) {
             // set the owning side to null (unless already changed)
-            if ($address->getCustomerId() === $this) {
-                $address->setCustomerId(null);
+            if ($address->getCustomer() === $this) {
+                $address->setCustomer(null);
             }
         }
 
@@ -288,7 +291,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if (!$this->orders->contains($order)) {
             $this->orders[] = $order;
-            $order->setCustomerId($this);
+            $order->setCustomer($this);
         }
 
         return $this;
@@ -298,8 +301,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if ($this->orders->removeElement($order)) {
             // set the owning side to null (unless already changed)
-            if ($order->getCustomerId() === $this) {
-                $order->setCustomerId(null);
+            if ($order->getCustomer() === $this) {
+                $order->setCustomer(null);
             }
         }
 

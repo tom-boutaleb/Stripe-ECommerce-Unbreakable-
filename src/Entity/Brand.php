@@ -37,7 +37,7 @@ class Brand
     private $active;
 
     /**
-     * @ORM\OneToMany(targetEntity=Product::class, mappedBy="brandId")
+     * @ORM\OneToMany(targetEntity=Product::class, mappedBy="brand")
      */
     private $products;
 
@@ -99,7 +99,7 @@ class Brand
     {
         if (!$this->products->contains($product)) {
             $this->products[] = $product;
-            $product->setBrandId($this);
+            $product->setBrand($this);
         }
 
         return $this;
@@ -109,8 +109,8 @@ class Brand
     {
         if ($this->products->removeElement($product)) {
             // set the owning side to null (unless already changed)
-            if ($product->getBrandId() === $this) {
-                $product->setBrandId(null);
+            if ($product->getBrand() === $this) {
+                $product->setBrand(null);
             }
         }
 

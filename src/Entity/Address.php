@@ -23,7 +23,7 @@ class Address
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="addresses")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $customerId;
+    private $customer;
 
     /**
      * @ORM\Column(type="string", length=155)
@@ -70,14 +70,14 @@ class Address
         return $this->id;
     }
 
-    public function getCustomerId(): ?User
+    public function getCustomer(): ?User
     {
-        return $this->customerId;
+        return $this->customer;
     }
 
-    public function setCustomerId(?User $customerId): self
+    public function setCustomer(?User $customer): self
     {
-        $this->customerId = $customerId;
+        $this->customer = $customer;
 
         return $this;
     }

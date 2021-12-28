@@ -23,7 +23,7 @@ class Product
      * @ORM\ManyToOne(targetEntity=Brand::class, inversedBy="products")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $brandId;
+    private $brand;
 
     /**
      * @ORM\Column(type="string", length=155)
@@ -56,7 +56,7 @@ class Product
     private $active;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Discount::class, inversedBy="productId")
+     * @ORM\ManyToOne(targetEntity=Discount::class, inversedBy="product")
      */
     private $discount;
 
@@ -65,14 +65,14 @@ class Product
         return $this->id;
     }
 
-    public function getBrandId(): ?Brand
+    public function getBrand(): ?Brand
     {
-        return $this->brandId;
+        return $this->brand;
     }
 
-    public function setBrandId(?Brand $brandId): self
+    public function setBrand(?Brand $brand): self
     {
-        $this->brandId = $brandId;
+        $this->brand = $brand;
 
         return $this;
     }
