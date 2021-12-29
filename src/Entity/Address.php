@@ -7,9 +7,9 @@ use App\Repository\AddressRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ApiResource()
  * @ORM\Entity(repositoryClass=AddressRepository::class)
  */
+#[ApiResource]
 class Address
 {
     /**

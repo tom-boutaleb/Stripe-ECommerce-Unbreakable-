@@ -7,9 +7,9 @@ use App\Repository\OrderDetailRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ApiResource()
  * @ORM\Entity(repositoryClass=OrderDetailRepository::class)
  */
+#[ApiResource]
 class OrderDetail
 {
     /**
