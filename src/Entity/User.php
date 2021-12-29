@@ -10,10 +10,17 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
+use Doctrine\DBAL\Types\IntegerType;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
- * @ApiResource
+ * @ApiResource(
+ *  denormalizationContext={
+ *      "disable_type_enforcement"=true
+ *  }
+ * )
  */
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
@@ -26,6 +33,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
+     * @Assert\NotBlank(
+     *  message="Le champ email est obligatoire."
+     * )
+     * @Assert\Email(
+     *  message="L'adresse '{{ email }}' n'est pas valide."
+     * )
      */
     private $email;
 
@@ -42,21 +55,67 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @ORM\Column(type="string", length=155)
+     * @Assert\NotBlank(
+     *  message="Le champ du nom de famille est obligatoire."
+     * )
+     * @Assert\Type(
+     *  type="string",
+     *  message="Le nom doit être une chaine de caractères valides."
+     * )
+     * @Assert\Length(
+     *  max=155,
+     *  maxMessage="Le nom ne doit pas excéder {{ limit }} caractères."
+     * )
+     * @Assert\Regex(
+     *  pattern="/^[a-z ,.'-]+$/i",
+     *  message="Le nom ne peut contenir que des lettres, des apostrophes, des points et des tirets."
+     * )
      */
     private $lastName;
 
     /**
      * @ORM\Column(type="string", length=155)
+     * @Assert\NotBlank(
+     *  message="Le champ du prénom est obligatoire."
+     * )
+     * @Assert\Type(
+     *  type="string",
+     *  message="Le nom doit être une chaine de caractères valides."
+     * )
+     * @Assert\Length(
+     *  max=155,
+     *  maxMessage="Le nom ne doit pas excéder {{ limit }} caractères."
+     * )
+     * @Assert\Regex(
+     *  pattern="/^[a-z ,.'-]+$/i",
+     *  message="Le nom ne peut contenir que des lettres, des apostrophes, des points et des tirets."
+     * )
      */
     private $firstName;
 
     /**
      * @ORM\Column(type="string", length=20)
+     * @Assert\NotBlank(
+     *  message="Le champ du numéro de téléphone est obligatoire."
+     * )
+     * @Assert\Type(
+     *  type="numeric",
+     *  message="Le numéro {{ value }} n'est pas valide, il ne doit contenir que des chiffres."
+     * )
+     * @Assert\Length(
+     *  min=10,
+     *  minMessage="Le numéro de téléphone doit contenir exactement {{ limit }} caractères.",
+     *  max=10,
+     *  maxMessage="Le numéro de téléphone doit contenir exactement {{ limit }} caractères."
+     * )
      */
     private $phone;
 
     /**
      * @ORM\Column(type="date")
+     * @Assert\NotBlank(
+     *  message="Le champ de la date de création est obligatoire."
+     * )
      */
     private $creationDate;
 
