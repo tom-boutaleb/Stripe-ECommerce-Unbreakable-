@@ -6,8 +6,14 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\ProductRepository;
 use Doctrine\ORM\Mapping as ORM;
 
+use Symfony\Component\Validator\Constraints as Assert;
+
 /**
- * @ApiResource()
+ * @ApiResource(
+ *  denormalizationContext={
+ *      "disable_type_enforcement"=true
+ *  }
+ * )
  * @ORM\Entity(repositoryClass=ProductRepository::class)
  */
 class Product
@@ -27,31 +33,82 @@ class Product
 
     /**
      * @ORM\Column(type="string", length=155)
+     * @Assert\NotBlank(
+     *  message="Le champ du nom est obligatoire."
+     * )
+     * @Assert\Type(
+     *  type="string",
+     *  message="Le nom doit contenir une chaine de caractères valides."
+     * )
+     * @Assert\Length(
+     *  max=155,
+     *  maxMessage="Le nom ne peut excéder {{ limit }} caractères."
+     * )
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=500)
+     * @Assert\NotBlank(
+     *  message="Le champ description est obligatoire."
+     * )
+     * @Assert\Type(
+     *  type="string",
+     *  message="La description doit contenir une chaine de caractères valides."
+     * )
+     * @Assert\Length(
+     *  max=500,
+     *  maxMessage="La description ne peut excéder {{ limit }} caractères."
+     * )
      */
     private $description;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\NotBlank(
+     *  message="Le champ image est obligatoire."
+     * )
+     * @Assert\Type(
+     *  type="string",
+     *  message="Le champ image contenir une chaine de caractères valides."
+     * )
+     * @Assert\Length(
+     *  max=255,
+     *  maxMessage="Le chemin de l'image ne peut excéder {{ limit }} caractères."
+     * )
      */
     private $imagePath;
 
     /**
      * @ORM\Column(type="float")
+     * @Assert\NotBlank(
+     *  message="Le champ du prix est obligatoire."
+     * )
+     * @Assert\Type(
+     *  type="numeric",
+     *  message="Le prix doit être de type {{ type }}."
+     * )
      */
     private $price;
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\NotBlank(
+     *  message="Le champ stock est obligatoire."
+     * )
+     * @Assert\Type(
+     *  type="numeric",
+     *  message="Le stock doit être de type {{ type }}."
+     * )
      */
     private $stock;
 
     /**
      * @ORM\Column(type="boolean", nullable=true)
+     * @Assert\Type(
+     *  type="bool",
+     *  message="La valeur active doit être de type {{ type }}."
+     * )
      */
     private $active;
 

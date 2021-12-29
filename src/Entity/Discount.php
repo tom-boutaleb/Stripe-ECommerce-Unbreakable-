@@ -8,6 +8,9 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
+use Symfony\Component\Validator\Constraints\DateValidator;
+use Symfony\Component\Validator\Constraints as Assert;
+
 /**
  * @ApiResource()
  * @ORM\Entity(repositoryClass=DiscountRepository::class)
@@ -28,21 +31,48 @@ class Discount
 
     /**
      * @ORM\Column(type="string", length=155)
+     * @Assert\NotBlank(
+     *  message="Le champ du nom est obligatoire."
+     * )
+     * @Assert\Type(
+     *  type="string",
+     *  message="Le champ du nom doit contenir une chaine de caractères valides."
+     * )
+     * @Assert\Length(
+     *  min=4,
+     *  minMessage="Le champ du nom doit contenir au moins {{ limit }} caractères.",
+     *  max=155,
+     *  maxMessage="Le champ du nom ne doit pas excéder {{ limit }} messages."
+     * )
      */
     private $name;
 
     /**
      * @ORM\Column(type="float")
+     * @Assert\NotBlank(
+     *  message="Le champ promotion est obligatoire."
+     * )
+     * @Assert\Type(
+     *  type="numeric",
+     *  message="Le champ promotion doit être de type {{ type }}."
+     * )
+     * @Assert\Range(
+     *  min=1,
+     *  max=99,
+     *  notInRangeMessage="La promotion doit être au minimum de {{ min }}% et au maximum de {{ max }}%."
+     * )
      */
     private $percentage;
 
     /**
      * @ORM\Column(type="date")
+     * @Assert\Type("DateTime")
      */
     private $startingDate;
 
     /**
      * @ORM\Column(type="date")
+     * @Assert\Type("DateTime")
      */
     private $endingDate;
 
