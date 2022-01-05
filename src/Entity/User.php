@@ -11,6 +11,7 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 
 /**
@@ -19,6 +20,10 @@ use Symfony\Component\Validator\Constraints as Assert;
  *  denormalizationContext={
  *      "disable_type_enforcement"=true
  *  }
+ * )
+ * @UniqueEntity(
+ *  "email",
+ *  message="Cette adresse mail est déjà utilisée."
  * )
  */
 class User implements UserInterface, PasswordAuthenticatedUserInterface

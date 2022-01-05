@@ -6,8 +6,13 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\OrderDetailRepository;
 use Doctrine\ORM\Mapping as ORM;
 
+use Symfony\Component\Serializer\Annotation\Groups;
+
 /**
- * @ApiResource()
+ * @ApiResource(
+ *  normalizationContext={"groups"={"order_details_read"}},
+ *  denormalizationContext={"groups"={"order_details_write"}}
+ * )
  * @ORM\Entity(repositoryClass=OrderDetailRepository::class)
  */
 class OrderDetail
@@ -16,28 +21,33 @@ class OrderDetail
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"order_details_read", "order_details_write", "orders_write", "orders_read"})
      */
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Order::class, inversedBy="orderDetails")
+     * @ORM\ManyToOne(targetEntity=Order::class, inversedBy="orderDetails", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
+     * @Groups({"order_details_read", "order_details_write", "orders_write", "orders_read"})
      */
     private $order;
 
     /**
      * @ORM\OneToOne(targetEntity=Product::class, cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
+     * @Groups({"order_details_read", "order_details_write", "orders_write", "orders_read"})
      */
     private $product;
 
     /**
      * @ORM\Column(type="integer")
+     * @Groups({"order_details_read", "order_details_write", "orders_write", "orders_read"})
      */
     private $productQuantity;
 
     /**
      * @ORM\Column(type="float")
+     * @Groups({"order_details_read", "order_details_write", "orders_write", "orders_read"})
      */
     private $total;
 

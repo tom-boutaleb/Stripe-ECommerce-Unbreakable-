@@ -8,8 +8,13 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
+use Symfony\Component\Serializer\Annotation\Groups;
+
 /**
- * @ApiResource()
+ * @ApiResource(
+ *  normalizationContext={"groups"={"orders_read"}},
+ *  denormalizationContext={"groups"={"orders_write"}}
+ * )
  * @ORM\Entity(repositoryClass=OrderRepository::class)
  * @ORM\Table(name="`order`")
  */
@@ -19,38 +24,45 @@ class Order
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"orders_read", "orders_write"})
      */
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="orders")
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="orders", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
+     * @Groups({"orders_read", "orders_write"})
      */
     private $customer;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Address::class)
+     * @ORM\ManyToOne(targetEntity=Address::class, cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
+     * @Groups({"orders_read", "orders_write"})
      */
     private $address;
 
     /**
      * @ORM\Column(type="date")
+     * @Groups({"orders_read", "orders_write"})
      */
     private $purchaseDate;
 
     /**
      * @ORM\Column(type="string", length=100, nullable=true)
+     * @Groups({"orders_read", "orders_write"})
      */
     private $status;
 
     /**
      * @ORM\Column(type="string", length=50, nullable=true)
+     * @Groups({"orders_read", "orders_write"})
      */
     private $trackingNumber;
 
     /**
-     * @ORM\OneToMany(targetEntity=OrderDetail::class, mappedBy="order", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=OrderDetail::class, mappedBy="order", orphanRemoval=true, cascade={"persist"})
+     * @Groups({"orders_read", "orders_write"})
      */
     private $orderDetails;
 
