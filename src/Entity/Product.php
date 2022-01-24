@@ -5,59 +5,52 @@ namespace App\Entity;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\ProductRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
-/**
- * @ORM\Entity(repositoryClass=ProductRepository::class)
- */
+
+
+#[ORM\Entity(repositoryClass: ProductRepository::class)]
 #[ApiResource]
 class Product
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
+
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
     private $id;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Brand::class, inversedBy="products")
-     * @ORM\JoinColumn(nullable=false)
-     */
+
+    #[ORM\ManyToOne(targetEntity : Brand::class, inversedBy: 'products')]
     private $brand;
 
-    /**
-     * @ORM\Column(type="string", length=155)
-     */
+
+    #[ORM\Column(type: 'string', length: 155)]
+    #[Assert\NotBlank(message: "Nom de marque obligatoire")]
+    #[Assert\Length(min: 3, max: 155,minMessage: "Le nom de marque doit faire entre 3 et 155 caractères", maxMessage: "Le nom de marque doit faire entre 3 et 155 caractères")]
     private $name;
 
-    /**
-     * @ORM\Column(type="string", length=500)
-     */
+
+    #[ORM\Column(type: 'string', length: 500)]
+    #[Assert\NotBlank(message: "Description de marque obligatoire")]
+    #[Assert\Length(min: 32, max: 500, minMessage: "La description de marque doit faire entre 32 et 500 caractères", maxMessage: "La description de marque doit faire entre 32 et 500 caractères")]
     private $description;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
+
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[Assert\NotBlank]
     private $imagePath;
 
-    /**
-     * @ORM\Column(type="float")
-     */
+    #[ORM\Column(type: 'float')]
     private $price;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Column(type: 'integer')]
     private $stock;
 
-    /**
-     * @ORM\Column(type="boolean", nullable=true)
-     */
+
+    #[ORM\Column(type: 'boolean', nullable: true)]
     private $active;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Discount::class, inversedBy="product")
-     */
+    #[ORM\ManyToOne(targetEntity: Discount::class, inversedBy: 'product')]
     private $discount;
 
     public function getId(): ?int

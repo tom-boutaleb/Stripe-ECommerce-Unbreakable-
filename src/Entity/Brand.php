@@ -7,6 +7,9 @@ use App\Repository\BrandRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use phpDocumentor\Reflection\Types\Boolean;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 /**
  * @ORM\Entity(repositoryClass=BrandRepository::class)
@@ -24,16 +27,21 @@ class Brand
     /**
      * @ORM\Column(type="string", length=155)
      */
+    #[Assert\NotBlank(message: "Nom de marque obligatoire")]
+    #[Assert\Length(min: 3, max: 155, minMessage: "Le nom de marque doit faire entre 3 et 155 caractères", maxMessage: "Le nom de marque doit faire entre 3 et 155 caractères")]
     private $name;
 
     /**
      * @ORM\Column(type="string", length=500)
      */
+    #[Assert\NotBlank(message: "Description obligatoire")]
+    #[Assert\Length(min: 32, max: 500, minMessage: "La description de marque doit faire entre 32 et 500 caractères", maxMessage: "La description de marque doit faire entre 32 et 500 caractères")]
     private $description;
 
     /**
      * @ORM\Column(type="boolean", nullable=true)
      */
+    #[Assert\Type(type: "bool")]
     private $active;
 
     /**

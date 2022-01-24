@@ -9,6 +9,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 
 /**
@@ -27,6 +28,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @ORM\Column(type="string", length=180, unique=true)
      */
+    #[Assert\NotBlank(message: "Veuillez renseigner un email.")]
+    #[Assert\Email(message: "L'adresse email doit être valide.")]
     private $email;
 
     /**
@@ -38,26 +41,35 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @var string The hashed password
      * @ORM\Column(type="string")
      */
+    #[Assert\NotBlank(message: "Mot de passe obligatoire")]
+    #[Assert\Length()]
     private $password;
 
     /**
      * @ORM\Column(type="string", length=155)
      */
+    #[Assert\NotBlank(message: "Nom de famille obligatoire")]
+    #[Assert\Length(min: 3, max: 255, minMessage: "Le nom de famille doit faire entre 3 et 32 caractères", maxMessage: "Le nom de famille doit faire entre 3 et 32 caractères")]
     private $lastName;
 
     /**
      * @ORM\Column(type="string", length=155)
      */
+    #[Assert\NotBlank(message: "Prenom obligatoire")]
+    #[Assert\Length(min: 3, max: 36, minMessage: "Le prenom doit faire entre 3 et 32 caractères", maxMessage: "Le prenom doit faire entre 3 et 32 caractères")]
     private $firstName;
 
     /**
      * @ORM\Column(type="string", length=20)
      */
+    #[Assert\NotBlank(message: "Veuillez renseigner un numéro.")]
     private $phone;
 
     /**
      * @ORM\Column(type="date")
      */
+    #[Assert\Date()]
+    #[Assert\NotBlank()]
     private $creationDate;
 
     /**
@@ -68,6 +80,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @ORM\OneToMany(targetEntity=Address::class, mappedBy="customer", orphanRemoval=true)
      */
+    #[Assert\NotBlank]
     private $addresses;
 
     /**

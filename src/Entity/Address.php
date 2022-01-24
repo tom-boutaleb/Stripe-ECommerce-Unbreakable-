@@ -5,6 +5,8 @@ namespace App\Entity;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\AddressRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 /**
  * @ORM\Entity(repositoryClass=AddressRepository::class)
@@ -23,26 +25,33 @@ class Address
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="addresses")
      * @ORM\JoinColumn(nullable=false)
      */
+    #[Assert\NotBlank]
     private $customer;
 
     /**
      * @ORM\Column(type="string", length=155)
      */
+    #[Assert\NotBlank(message: "Nom de famille obligatoire")]
+    #[Assert\Length(min: 3, max: 255, minMessage: "Le nom de famille doit faire entre 3 et 32 caractères", maxMessage: "Le nom de famille doit faire entre 3 et 32 caractères")]
     private $lastName;
 
     /**
      * @ORM\Column(type="string", length=155)
      */
+    #[Assert\NotBlank(message: "Prénom obligatoire")]
+    #[Assert\Length(min: 3, max: 255, minMessage: "Le prénom doit faire entre 3 et 32 caractères", maxMessage: "Le prénom faire entre 3 et 32 caractères")]
     private $firstName;
 
     /**
      * @ORM\Column(type="string", length=15, nullable=true)
      */
+    #[Assert\NotBlank(message: "Numéro de rue obligatoire")]
     private $streetNumber;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
+    #[Assert\NotBlank(message: "Nom de rue obligatoire")]
     private $streetName;
 
     /**
@@ -53,11 +62,13 @@ class Address
     /**
      * @ORM\Column(type="integer")
      */
+    #[Assert\NotBlank(message:"Code postal obligatoire")]
     private $postalCode;
 
     /**
      * @ORM\Column(type="string", length=80)
      */
+    #[Assert\NotBlank(message: "Nom de ville obligatoire")]
     private $city;
 
     /**

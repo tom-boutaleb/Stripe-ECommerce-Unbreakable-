@@ -2,35 +2,32 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\IPsRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity(repositoryClass=IPsRepository::class)
- */
+
+#[ORM\Entity(repositoryClass: IPsRepository::class)]
+#[ApiResource]
 class IPs
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
+
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
     private $id;
 
-    /**
-     * @ORM\Column(type="string", length=20)
-     */
+
+    #[ORM\Column(type: 'string', length: 20)]
     private $address;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="IPs")
-     * @ORM\JoinColumn(nullable=false)
-     */
+
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'IPs')]
+    #[ORM\JoinColumn(nullable: false)]
     private $user;
 
-    /**
-     * @ORM\Column(type="boolean", nullable=true)
-     */
+
+    #[ORM\Column(type: 'boolean', nullable: true)]
     private $blacklist;
 
     public function getId(): ?int

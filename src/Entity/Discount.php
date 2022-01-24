@@ -8,42 +8,33 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity(repositoryClass=DiscountRepository::class)
- */
+#[ORM\Entity(repositoryClass: DiscountRepository::class)]
 #[ApiResource]
 class Discount
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
+
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
     private $id;
 
-    /**
-     * @ORM\OneToMany(targetEntity=Product::class, mappedBy="discount")
-     */
+
+    #[ORM\OneToMany(mappedBy: 'discount', targetEntity: Product::class)]
     private $product;
 
-    /**
-     * @ORM\Column(type="string", length=155)
-     */
+    #[ORM\Column(type: 'string', length: 155)]
     private $name;
 
-    /**
-     * @ORM\Column(type="float")
-     */
+
+    #[ORM\Column(type: 'float')]
     private $percentage;
 
-    /**
-     * @ORM\Column(type="date")
-     */
+
+    #[ORM\Column(type: 'date')]
     private $startingDate;
 
-    /**
-     * @ORM\Column(type="date")
-     */
+
+    #[ORM\Column(type: 'date')]
     private $endingDate;
 
     public function __construct()

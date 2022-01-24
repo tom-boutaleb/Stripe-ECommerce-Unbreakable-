@@ -5,40 +5,37 @@ namespace App\Entity;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\OrderDetailRepository;
 use Doctrine\ORM\Mapping as ORM;
+use phpDocumentor\Reflection\Types\Float_;
+use Symfony\Component\Validator\Constraints as Assert;
 
-/**
- * @ORM\Entity(repositoryClass=OrderDetailRepository::class)
- */
+
+#[ORM\Entity(repositoryClass: OrderDetailRepository::class)]
 #[ApiResource]
 class OrderDetail
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
-    private $id;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Order::class, inversedBy="orderDetails")
-     * @ORM\JoinColumn(nullable=false)
-     */
+    #[ORM\ManyToOne(targetEntity: Order::class, inversedBy: 'orderDetails')]
+    #[ORM\JoinColumn(nullable: false)]
     private $order;
 
-    /**
-     * @ORM\OneToOne(targetEntity=Product::class, cascade={"persist", "remove"})
-     * @ORM\JoinColumn(nullable=false)
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
+    private $id;
+
+
+    #[ORM\OneToOne(targetEntity: Product::class, cascade: ['persist', 'remove'])]
     private $product;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Column(type: 'integer')]
+    #[Assert\NotBlank(message: "La quantité doit être renseignée")]
+    #[Assert\Type(type: "int")]
     private $productQuantity;
 
-    /**
-     * @ORM\Column(type="float")
-     */
+
+    #[ORM\Column(type: 'float')]
+    #[Assert\Type(type: "float")]
+    #[Assert\NotBlank(message: "Le total doit être renseigné")]
     private $total;
 
     public function getId(): ?int

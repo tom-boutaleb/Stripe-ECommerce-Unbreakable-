@@ -8,50 +8,41 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity(repositoryClass=OrderRepository::class)
- * @ORM\Table(name="`order`")
- */
+ //@ORM\Entity(repositoryClass=OrderRepository::class)
+ //@ORM\Table(name="`order`")
+#[ORM\Entity(repositoryClass: OrderRepository::class)]
+#[ORM\Table(name: 'order')]
 #[ApiResource]
 class Order
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
+
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
     private $id;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="orders")
-     * @ORM\JoinColumn(nullable=false)
-     */
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'orders')]
+    #[ORM\JoinColumn(nullable: false)]
     private $customer;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Address::class)
-     * @ORM\JoinColumn(nullable=false)
-     */
+
+    #[ORM\ManyToOne(targetEntity: Address::class)]
+    #[ORM\JoinColumn(nullable: false)]
     private $address;
 
-    /**
-     * @ORM\Column(type="date")
-     */
+
+    #[ORM\Column(type: 'date')]
     private $purchaseDate;
 
-    /**
-     * @ORM\Column(type="string", length=100, nullable=true)
-     */
+    #[ORM\Column(type: 'string', length: 100, nullable : true)]
     private $status;
 
-    /**
-     * @ORM\Column(type="string", length=50, nullable=true)
-     */
+
+    #[ORM\Column(type: 'string', length: 50, nullable: true)]
     private $trackingNumber;
 
-    /**
-     * @ORM\OneToMany(targetEntity=OrderDetail::class, mappedBy="order", orphanRemoval=true)
-     */
+
+    #[ORM\OneToMany(mappedBy: 'order', targetEntity: OrderDetail::class, orphanRemoval: true)]
     private $orderDetails;
 
     public function __construct()
